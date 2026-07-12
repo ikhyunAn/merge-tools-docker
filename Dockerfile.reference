@@ -1,5 +1,4 @@
-# REFERENCE variant: reproduces the researcher's `mergeenv` list as faithfully as
-# possible — pydantic 2.12.5 kept, stock upstream mergekit v0.1.3 (installed from the
+# REFERENCE variant: pydantic 2.12.5 kept, stock upstream mergekit v0.1.3 (installed from the
 # git tag, since that version never existed on PyPI) instead of the cross-family fork.
 #
 # KNOWN LIMITATION (inherited from the reference env itself): under pydantic 2.12.x,

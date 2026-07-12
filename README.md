@@ -9,7 +9,7 @@ and repositories can be swapped freely.
 | Image | pydantic | mergekit | Use for |
 |---|---|---|---|
 | `merge-tools:latest` | 2.10.6 | fork `ikhyunAn/mergekit@e85a454` | **merge_pipeline.py / mergekit merges**, incl. cross-family; also runs eval |
-| `merge-tools:reference` | 2.12.5 (reference-exact) | stock upstream v0.1.3 (present but merge path import-broken under pydantic 2.12 — same as the reference env) | non-mergekit merging repos + eval, maximum fidelity to the researcher's env |
+| `merge-tools:reference` | 2.12.5 (reference-exact) | stock upstream v0.1.3 (present but merge path import-broken under pydantic 2.12 — same as the reference env) | non-mergekit merging repos + eval, maximum fidelity to the env |
 
 Select via `IMAGE=merge-tools:reference ./run.sh ...` (default is `:latest`).
 
