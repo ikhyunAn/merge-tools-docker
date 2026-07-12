@@ -1,6 +1,6 @@
 # merge-tools Docker environment
 
-Dependency containers for `merge_tools` (locally checked out as `merge_tools_archive`; either name works with run.sh) + `unified-llm-eval`. Images hold
+Dependency containers for `merge_tools` + `unified-llm-eval`. Images hold
 **dependencies only**; pipeline code is mounted at runtime, so code edits need no rebuild
 and repositories can be swapped freely.
 
