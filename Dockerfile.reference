@@ -1,0 +1,43 @@
+# REFERENCE variant: reproduces the researcher's `mergeenv` list as faithfully as
+# possible — pydantic 2.12.5 kept, stock upstream mergekit v0.1.3 (installed from the
+# git tag, since that version never existed on PyPI) instead of the cross-family fork.
+#
+# KNOWN LIMITATION (inherited from the reference env itself): under pydantic 2.12.x,
+# mergekit's merge path fails at import (PydanticSchemaGenerationError in
+# merge_methods/multislerp). This variant therefore CANNOT run merge_pipeline.py /
+# mergekit merges — use merge-tools:latest for those. This image targets the
+# non-mergekit merging repo and the unified-llm-eval stack.
+#
+# Only deviations from the reference list: tinyBenchmarks added (tarball), and
+# mergekit resolved to the upstream v0.1.3 git tag the freeze actually came from.
+
+FROM nvidia/cuda:12.8.1-devel-ubuntu24.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        python3.12 python3.12-venv python3.12-dev \
+        git curl ca-certificates build-essential ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3.12 -m venv /opt/venv
+ENV VIRTUAL_ENV=/opt/venv \
+    PATH=/opt/venv/bin:$PATH
+
+# --no-deps: the lock is a complete freeze of a working env; strict resolution would
+# reject its internal metadata conflicts (see README).
+COPY requirements-reference.lock /tmp/requirements-reference.lock
+RUN pip install --no-cache-dir uv==0.9.11 \
+    && uv pip install --no-cache --no-deps -r /tmp/requirements-reference.lock
+
+ENV HF_HOME=/cache/huggingface \
+    PYTHONPATH=/workspace/merge_tools:/workspace/unified-llm-eval
+
+WORKDIR /workspace
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["bash"]
