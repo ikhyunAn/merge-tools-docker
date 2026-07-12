@@ -1,0 +1,14 @@
+# Local runtime artifacts — never committed
+*.log
+__pycache__/
+*.pyc
+
+# Local staging / data dirs (created by run.sh on local disk)
+/merge-code/
+/merge-output/
+/merge-models/
+/hf-cache/
+
+# Editor / OS cruft
+.DS_Store
+*.swp
